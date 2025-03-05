@@ -46,5 +46,5 @@ jobs:
             sudo docker stop kartik || true
             sudo docker rm kartik || true
             sudo docker pull kartikeya1112/latest-image:latest
-            sudo docker run --name=kartik -p 80:5000 -d kartikeya1112/latest-image:latest
+            sudo docker run --name=kartik -p 2000:5000 -d kartikeya1112/latest-image:latest
           EOF
