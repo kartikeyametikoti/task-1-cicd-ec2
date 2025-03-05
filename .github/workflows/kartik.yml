@@ -12,8 +12,8 @@ jobs:
       - name: login docker
         uses: docker/login-action@v2
         with:
-          username:
-          password:
+          username: ${{ secrets.username }}
+          password: {{ secrets.password }}
       - name: build image
         run: docker build -t kartik .
       - name: push to dockerhub
@@ -22,10 +22,13 @@ jobs:
           docker push kartikeya1112/latest-image:latest
       - name: deploying in instance
         env:
-          ssh_key:
-          ssh_user:
-          ssh_ip:
+          ssh_key: ${{ secrets.EC2_SSH_KEY }
+          ssh_user: ${{ secrets.ssh_user}}
+          ssh_ip: ${{ secrets.ssh_ip}}
         run: |
+          echo "$ssh_key" > centos-key.pem
+          sudo chmod 600 centos-key.pem
+          ssh -o StrictHostKeyChecking=no -i kartikkey.pem $ssh_user@$ssh_ip << EOF
           sudo apt update
           sudo apt upgrade -y
           sudo apt install docker.io -y
