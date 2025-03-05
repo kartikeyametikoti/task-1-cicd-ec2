@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "$SSH_KEY" > cicd-key.pem
           sudo chmod 600 cicd-key.pem
-          ssh -o StrictHostKeyChecking=no -i centos-key.pem $SSH_USER@$SSH_IP << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i cicd-key.pem $SSH_USER@$SSH_IP << 'EOF'
             sudo apt update
             sudo apt upgrade -y
             sudo apt install docker.io -y
