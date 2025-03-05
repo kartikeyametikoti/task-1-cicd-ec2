@@ -35,8 +35,8 @@ jobs:
           SSH_IP: ${{ secrets.SSH_IP }}
 
         run: |
-          echo "$SSH_KEY" > centos-key.pem
-          sudo chmod 600 centos-key.pem
+          echo "$SSH_KEY" > cicd-key.pem
+          sudo chmod 600 cicd-key.pem
           ssh -o StrictHostKeyChecking=no -i centos-key.pem $SSH_USER@$SSH_IP << 'EOF'
             sudo apt update
             sudo apt upgrade -y
