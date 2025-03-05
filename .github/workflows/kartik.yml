@@ -1,0 +1,38 @@
+name: cicd-ec2
+on:
+  push:
+    branches:
+      - main
+jobs:
+  buid_image-deploy:
+    runs on: ubuntu
+    steps:
+      - name: source code
+        uses: actions/checkout@v3
+      - name: login docker
+        uses: docker/login-action@v2
+        with:
+          username:
+          password:
+      - name: build image
+        run: docker build -t kartik .
+      - name: push to dockerhub
+        run: |
+          docker tag kartik:latest kartikeya1112/latest-image:latest
+          docker push kartikeya1112/latest-image:latest
+      - name: deploying in instance
+        env:
+          ssh_key:
+          ssh_user:
+          ssh_ip:
+        run: |
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt install docker.io -y
+          sudo systemctl enable docker
+          sudo systemctl start docker
+          sudo docker stop kartik || true
+          sudo docker rm kartik || true
+          sudo docker pull kartikeya1112/latest-image:latest
+          sudo docker run --name=kartik -p 80:5000 -d kartikeya1112/latest-image:latest
+        EOF
