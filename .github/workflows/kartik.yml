@@ -36,8 +36,7 @@ jobs:
 
         run: |
           echo "$SSH_KEY" > centos-key.pem
-          chmod 400 centos-key.pem
-
+          sudo chmod 600 centos-key.pem
           ssh -o StrictHostKeyChecking=no -i centos-key.pem $SSH_USER@$SSH_IP << 'EOF'
             sudo apt update
             sudo apt upgrade -y
