@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}  
           registry: docker.io
       - name: Build Docker image
-        run: docker build -t kartik .
+        run: docker build -t kartik ./docker/
       - name: Push image to DockerHub
         run: |
           docker tag kartik:latest kartikeya1112/latest-image:latest
@@ -29,9 +29,9 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}    
           SSH_IP: ${{ secrets.SSH_IP }}
         run: |
-          echo "$SSH_KEY" > cicd-key.pem
-          sudo chmod 600 cicd-key.pem
-          ssh -o StrictHostKeyChecking=no -i cicd-key.pem $SSH_USER@$SSH_IP << 'EOF'
+          echo "$SSH_KEY" > kartik-key.pem
+          sudo chmod 600 kartik-key.pem
+          ssh -o StrictHostKeyChecking=no -i kartik-key.pem $SSH_USER@$SSH_IP << 'EOF'
             sudo apt update
             sudo apt upgrade -y
             sudo apt install docker.io -y || true
